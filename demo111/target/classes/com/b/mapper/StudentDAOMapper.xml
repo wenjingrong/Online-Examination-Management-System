@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.b.dao.StudentDAO">
+    <!--id是接口中方法名称   resultType是返回的类型   parameterType是传入参数的类型-->
+    <select id="login" resultType="com.b.entity.Student">
+        select * from student
+        where sid=#{id} and spassword=#{password}
+    </select>
+
+
+    <resultMap id="StudentMap" type="com.b.entity.Student">
+        <id property="sid" column="sid"></id>
+        <collection property="scourses" column="sid" javaType="java.util.ArrayList" ofType="com.b.entity.Course" select="findCourse">
+            <result property="cid" column="cid"/>
+            <result property="cname" column="cname"/>
+        </collection>
+    </resultMap>
+
+    <select id="find_info" resultMap="StudentMap">
+        select * from student where sid=#{sid}
+    </select>
+
+    <select id="findCourse" resultType="com.b.entity.Course">
+        select * from cource
+        right outer join scource
+        on scource.cid=cource.cid
+        where scource.sid=#{sid}
+    </select>
+
+    <update id="update1" parameterType="java.lang.String">
+        update student set sphonenum=#{sphonenum},spassword=#{spassword}
+        where sid=#{sid};
+    </update>
+
+    <update id="update2" parameterType="java.lang.String">
+        update scource set cid=#{cid}
+        where sid=#{sid} and chooseid=#{chooseid};
+    </update>
+
+
+<!--    返回类型是集合中的元素类型而不是集合-->
+    <select id="find_cour" resultType="com.b.entity.Course">
+        select * from cource
+    </select>
+
+    <select id="find_name" resultType="java.lang.String">
+        select student.sname from student
+        where sid=#{sid}
+    </select>
+
+</mapper>
