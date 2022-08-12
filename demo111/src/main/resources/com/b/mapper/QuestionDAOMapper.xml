@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.b.dao.QuestionDAO">
+
+    <select id="find_ques" resultType="com.b.entity.Question">
+        select * from question
+        where cid=#{cid} and testid=#{testid}
+    </select>
+
+    <insert id="add_ques" parameterType="com.b.entity.Question">
+        insert into question values(#{cid},#{testid},#{qid},#{title},#{optionA},#{optionB},#{optionC},#{optionD},#{answer},#{score})
+    </insert>
+
+    <delete id="delete_ques">
+        delete from question where cid=#{cid} and testid=#{testid} and qid=#{qid}
+    </delete>
+
+    <update id="change_ques">
+        update question set cid=#{cid},testid=#{testid},qid=#{qid},title=#{title},optionA=#{optionA},optionB=#{optionB},optionC=#{optionC},optionD=#{optionD},answer=#{answer},score=#{score}
+        where cid=#{cid} and testid=#{testid} and qid=#{qid}
+    </update>
+
+    <select id="find_single_ques" resultType="com.b.entity.Question">
+        select * from question
+        where cid=#{cid} and testid=#{testid} and qid=#{qid}
+    </select>
+
+</mapper>
